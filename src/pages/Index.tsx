@@ -189,7 +189,7 @@ export default function Index() {
                   <div className="flex gap-4">
                     {featuredLinks.map((link) => (
                       <div key={link.id} className="min-w-[300px] flex-shrink-0">
-                        <ProductCard {...link} />
+                        <ProductCard {...link} image={link.images[0]} />
                       </div>
                     ))}
                   </div>
@@ -211,7 +211,7 @@ export default function Index() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {currentItems.map((link) => (
-                    <ProductCard key={link.id} {...link} />
+                    <ProductCard key={link.id} {...link} image={link.images[0]} />
                   ))}
                 </div>
               )}
