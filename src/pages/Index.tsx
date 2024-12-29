@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SkeletonCard from '@/components/SkeletonCard';
-import ProductCard from '@/components/ProductCard';
+import { ProductCard } from '@/components/ProductCard';
 import { HeroBanner } from '@/components/home/HeroBanner';
 import { SearchFilters } from '@/components/home/SearchFilters';
 import { fetchPermanentLinks } from '@/services/product.service';
