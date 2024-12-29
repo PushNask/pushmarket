@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ProductCard } from '@/components/product/ProductCard';
 
-export default function ProductDetails() {
+const ProductDetails = () => {
   const { id } = useParams();
   
   // TODO: Fetch product details using id
@@ -38,4 +38,6 @@ export default function ProductDetails() {
       <ProductCard {...product} />
     </div>
   );
-}
+};
+
+export default ProductDetails;
