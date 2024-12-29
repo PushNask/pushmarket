@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
 import ReactPaginate from 'react-paginate';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SkeletonCard from '@/components/SkeletonCard';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductCard } from '@/components/product/ProductCard';
 import { HeroBanner } from '@/components/home/HeroBanner';
 import { SearchFilters } from '@/components/home/SearchFilters';
 import { fetchPermanentLinks } from '@/services/product.service';
 import type { Product } from '@/types/product.types';
 
-// Constants
 const CATEGORIES = [
   { id: 'all', name: 'All Categories' },
   { id: 'electronics', name: 'Electronics & Gadgets' },
@@ -55,7 +54,7 @@ export default function Index() {
     debouncedSearch(searchInput);
   }, [searchInput, debouncedSearch]);
 
-  // React Query with proper v5 syntax
+  // Updated React Query with proper v5 syntax
   const { data: links = [], isLoading, error } = useQuery({
     queryKey: ['permanentLinks'],
     queryFn: fetchPermanentLinks,
@@ -131,18 +130,8 @@ export default function Index() {
     setCurrentPage(selected);
   };
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">
-          Error loading products. Please try again later.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <HeroBanner />
       
       <SearchFilters
@@ -160,7 +149,6 @@ export default function Index() {
         LOCATIONS={LOCATIONS}
       />
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 flex-1">
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -170,7 +158,6 @@ export default function Index() {
           </div>
         ) : (
           <>
-            {/* Featured Section */}
             {featuredLinks.length > 0 && (
               <section className="mb-12">
                 <div className="flex items-center justify-between mb-6">
@@ -189,7 +176,7 @@ export default function Index() {
                   <div className="flex gap-4">
                     {featuredLinks.map((link) => (
                       <div key={link.id} className="min-w-[300px] flex-shrink-0">
-                        <ProductCard {...link} image={link.images[0]} />
+                        <ProductCard {...link} />
                       </div>
                     ))}
                   </div>
@@ -197,7 +184,6 @@ export default function Index() {
               </section>
             )}
 
-            {/* All Products */}
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">All Products</h2>
@@ -211,12 +197,11 @@ export default function Index() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {currentItems.map((link) => (
-                    <ProductCard key={link.id} {...link} image={link.images[0]} />
+                    <ProductCard key={link.id} {...link} />
                   ))}
                 </div>
               )}
 
-              {/* Pagination */}
               {remainingLinks.length > itemsPerPage && (
                 <div className="flex justify-center mt-8 gap-2">
                   <ReactPaginate
