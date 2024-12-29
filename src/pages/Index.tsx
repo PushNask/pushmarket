@@ -5,9 +5,10 @@ import ReactPaginate from 'react-paginate';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SkeletonCard from '@/components/SkeletonCard';
-import { ProductCard } from '@/components/product/ProductCard';
 import { HeroBanner } from '@/components/home/HeroBanner';
 import { SearchFilters } from '@/components/home/SearchFilters';
+import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import { ProductGrid } from '@/components/home/ProductGrid';
 import { fetchPermanentLinks } from '@/services/product.service';
 import type { Product } from '@/types/product.types';
 
@@ -39,12 +40,9 @@ export default function Index() {
   const [locationFilter, setLocationFilter] = useState('All Locations');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
-
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
 
-  // Debounce the search input
   const debouncedSearch = useMemo(
     () => debounce((value: string) => setSearchQuery(value), 500),
     []
@@ -54,8 +52,7 @@ export default function Index() {
     debouncedSearch(searchInput);
   }, [searchInput, debouncedSearch]);
 
-  // Updated React Query with proper v5 syntax
-  const { data: links = [], isLoading, error } = useQuery({
+  const { data: links = [], isLoading } = useQuery({
     queryKey: ['permanentLinks'],
     queryFn: fetchPermanentLinks,
     staleTime: 5 * 60 * 1000,
@@ -113,22 +110,18 @@ export default function Index() {
   });
 
   const featuredLinks = useMemo(() => {
-    const sortedByScore = [...(links as Product[])].sort((a, b) => b.metrics.linkScore - a.metrics.linkScore);
+    const sortedByScore = [...links].sort((a, b) => b.metrics.linkScore - a.metrics.linkScore);
     return sortedByScore.slice(0, 12);
   }, [links]);
 
   const remainingLinks = useMemo(() => {
     const featuredIDs = featuredLinks.map((f) => f.id);
-    return (links as Product[]).filter((link) => !featuredIDs.includes(link.id));
+    return links.filter((link) => !featuredIDs.includes(link.id));
   }, [links, featuredLinks]);
 
   const pageCount = Math.ceil(remainingLinks.length / itemsPerPage);
   const offset = currentPage * itemsPerPage;
   const currentItems = remainingLinks.slice(offset, offset + itemsPerPage);
-
-  const handlePageChange = ({ selected }: { selected: number }) => {
-    setCurrentPage(selected);
-  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
@@ -158,77 +151,35 @@ export default function Index() {
           </div>
         ) : (
           <>
-            {featuredLinks.length > 0 && (
-              <section className="mb-12">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold">Featured Products</h2>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="icon">
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+            <FeaturedProducts products={featuredLinks} />
+            <ProductGrid products={currentItems} totalCount={remainingLinks.length} />
 
-                <div className="overflow-x-auto">
-                  <div className="flex gap-4">
-                    {featuredLinks.map((link) => (
-                      <div key={link.id} className="min-w-[300px] flex-shrink-0">
-                        <ProductCard {...link} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            <section>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">All Products</h2>
-                <span className="text-sm text-gray-500">
-                  Showing {currentItems.length} of {remainingLinks.length} products
-                </span>
+            {remainingLinks.length > itemsPerPage && (
+              <div className="flex justify-center mt-8 gap-2">
+                <ReactPaginate
+                  previousLabel={
+                    <Button variant="outline">
+                      <ChevronLeft className="w-4 h-4 mr-2" />
+                      Previous
+                    </Button>
+                  }
+                  nextLabel={
+                    <Button variant="outline">
+                      Next
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  }
+                  pageCount={pageCount}
+                  onPageChange={({ selected }) => setCurrentPage(selected)}
+                  containerClassName="flex items-center space-x-3"
+                  pageClassName="px-3 py-1 border rounded"
+                  activeClassName="bg-blue-500 text-white"
+                  previousClassName="inline-block"
+                  nextClassName="inline-block"
+                  disabledClassName="opacity-50 cursor-not-allowed"
+                />
               </div>
-
-              {currentItems.length === 0 ? (
-                <p className="text-gray-500">No products found.</p>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {currentItems.map((link) => (
-                    <ProductCard key={link.id} {...link} />
-                  ))}
-                </div>
-              )}
-
-              {remainingLinks.length > itemsPerPage && (
-                <div className="flex justify-center mt-8 gap-2">
-                  <ReactPaginate
-                    previousLabel={
-                      <Button variant="outline">
-                        <ChevronLeft className="w-4 h-4 mr-2" />
-                        Previous
-                      </Button>
-                    }
-                    nextLabel={
-                      <Button variant="outline">
-                        Next
-                        <ChevronRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    }
-                    pageCount={pageCount}
-                    onPageChange={handlePageChange}
-                    containerClassName="flex items-center space-x-3"
-                    pageClassName="px-3 py-1 border rounded"
-                    activeClassName="bg-blue-500 text-white"
-                    previousClassName="inline-block"
-                    nextClassName="inline-block"
-                    disabledClassName="opacity-50 cursor-not-allowed"
-                  />
-                </div>
-              )}
-            </section>
+            )}
           </>
         )}
       </main>
