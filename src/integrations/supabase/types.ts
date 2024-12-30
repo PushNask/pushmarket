@@ -9,7 +9,122 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      product_images: {
+        Row: {
+          created_at: string | null
+          display_order: number
+          id: string
+          image_url: string
+          product_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_order: number
+          id?: string
+          image_url: string
+          product_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number
+          id?: string
+          image_url?: string
+          product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          expires_at: string
+          id: string
+          link_number: number
+          link_type: string
+          location: string
+          metrics: Json | null
+          price: number
+          seller_id: string
+          status: string | null
+          title: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          expires_at: string
+          id?: string
+          link_number: number
+          link_type: string
+          location: string
+          metrics?: Json | null
+          price: number
+          seller_id: string
+          status?: string | null
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          expires_at?: string
+          id?: string
+          link_number?: number
+          link_type?: string
+          location?: string
+          metrics?: Json | null
+          price?: number
+          seller_id?: string
+          status?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      seller_profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_verified: boolean | null
+          name: string
+          rating: number | null
+          response_time: string | null
+          shipping_options: Json | null
+          whatsapp_number: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          is_verified?: boolean | null
+          name: string
+          rating?: number | null
+          response_time?: string | null
+          shipping_options?: Json | null
+          whatsapp_number?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_verified?: boolean | null
+          name?: string
+          rating?: number | null
+          response_time?: string | null
+          shipping_options?: Json | null
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

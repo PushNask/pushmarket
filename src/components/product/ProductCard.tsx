@@ -2,43 +2,18 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, Eye, Star, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Heart, MessageCircle, Eye } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ImageCarousel } from './ImageCarousel';
-import { ShareMenu } from './ShareMenu';
-
-interface ProductCardProps {
-  id: string;
-  linkNumber: number;
-  title: string;
-  price: number;
-  currency?: string;
-  location?: string;
-  description?: string;
-  images?: string[];
-  expiresAt?: Date;
-  seller?: {
-    name: string;
-    rating?: number;
-    responseTime?: string;
-    whatsappNumber?: string;
-    isVerified?: boolean;
-    shippingOptions?: {
-      pickup: boolean;
-      shipping: boolean;
-    };
-  };
-  metrics?: {
-    views: number;
-    likes: number;
-    linkScore: number;
-  };
-}
+import { ImageCarousel } from './ImageCarousel/ImageCarousel';
+import { SellerInfo } from './SellerInfo/SellerInfo';
+import { DeliveryOptions } from './DeliveryOptions/DeliveryOptions';
+import { ShareMenu } from './ShareMenu/ShareMenu';
+import { ProductCardProps } from './types';
 
 export const ProductCard = ({
   id,
@@ -53,7 +28,6 @@ export const ProductCard = ({
   seller,
   metrics
 }: ProductCardProps) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState('');
   const [timerColor, setTimerColor] = useState('text-green-500');
   const [isSharing, setIsSharing] = useState(false);
@@ -172,11 +146,7 @@ export const ProductCard = ({
         </div>
       </CardHeader>
 
-      <ImageCarousel 
-        images={images}
-        currentIndex={currentImageIndex}
-        onIndexChange={setCurrentImageIndex}
-      />
+      <ImageCarousel images={images} />
 
       <CardContent className="p-4">
         <div className="mb-3 flex items-start justify-between gap-4">
@@ -196,50 +166,16 @@ export const ProductCard = ({
 
         {seller && (
           <>
-            <div className="flex items-center justify-between text-base text-gray-600 mb-4">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{seller.name}</span>
-                {seller.isVerified && (
-                  <Badge variant="secondary" className="text-sm px-2 py-0.5">
-                    Verified
-                  </Badge>
-                )}
-              </div>
-              {seller.rating && (
-                <div className="flex items-center">
-                  <Star className="w-5 h-5 text-yellow-400 mr-1.5" />
-                  <span className="text-base">{seller.rating.toFixed(1)}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="text-base text-gray-600 mb-3">
-              📍 {location} {seller.responseTime && `• Response: ${seller.responseTime}`}
-            </div>
-
+            <SellerInfo
+              name={seller.name}
+              rating={seller.rating}
+              isVerified={seller.isVerified}
+              responseTime={seller.responseTime}
+              location={location}
+            />
+            
             {seller.shippingOptions && (
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-200">
-                <span className="text-base font-medium text-gray-700">Delivery:</span>
-                <div className="flex flex-wrap gap-3">
-                  {seller.shippingOptions.pickup && (
-                    <div className="flex items-center text-green-600 text-base bg-green-50 px-3 py-1.5 rounded-full">
-                      <CheckCircle2 className="w-5 h-5 mr-1.5" />
-                      <span>Pick-up</span>
-                    </div>
-                  )}
-                  {seller.shippingOptions.shipping ? (
-                    <div className="flex items-center text-green-600 text-base bg-green-50 px-3 py-1.5 rounded-full">
-                      <CheckCircle2 className="w-5 h-5 mr-1.5" />
-                      <span>Shipping</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center text-red-500 text-base bg-red-50 px-3 py-1.5 rounded-full">
-                      <AlertCircle className="w-5 h-5 mr-1.5" />
-                      <span>No Shipping</span>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <DeliveryOptions options={seller.shippingOptions} />
             )}
           </>
         )}
