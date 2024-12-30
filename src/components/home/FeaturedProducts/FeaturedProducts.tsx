@@ -3,7 +3,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { Navigation } from './Navigation';
 import { PageIndicators } from './PageIndicators';
 import { FeaturedProductsProps } from './types';
-import { SkeletonCard } from '@/components/SkeletonCard';
+import SkeletonCard from '@/components/SkeletonCard'; // Fixed import statement
 
 const PRODUCTS_PER_PAGE = 4;
 
