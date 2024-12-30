@@ -24,7 +24,7 @@ export const ImageCarousel = ({ images, onImageLoad, onImageError }: ImageCarous
   const handlers = useSwipeable({
     onSwipedLeft: handleNext,
     onSwipedRight: handlePrevious,
-    preventDefaultTouchmoveEvent: true,
+    touchEventOptions: { passive: false },
     trackMouse: true
   });
 
