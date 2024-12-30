@@ -1,4 +1,16 @@
-import { Product } from '@/types/product.types';
+export interface Product {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  category: string;
+  location: string;
+  seller: {
+    name: string;
+    rating: number;
+    isVerified: boolean;
+  };
+}
 
 export interface FeaturedProductsProps {
   products: Product[];
@@ -9,8 +21,9 @@ export interface FeaturedProductsProps {
 export interface NavigationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
-  className?: string;
+  onNext: () => void;
+  onPrevious: () => void;
+  isLoading?: boolean;
 }
 
 export interface PageIndicatorsProps {
