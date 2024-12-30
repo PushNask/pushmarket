@@ -10,7 +10,6 @@ import { SearchFilters } from '@/components/home/SearchFilters';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { ProductGrid } from '@/components/home/ProductGrid';
 import { fetchPermanentLinks } from '@/services/product.service';
-import type { Product } from '@/types/product.types';
 
 const CATEGORIES = [
   { id: 'all', name: 'All Categories' },
@@ -56,7 +55,7 @@ export default function Index() {
     queryKey: ['permanentLinks'],
     queryFn: fetchPermanentLinks,
     staleTime: 5 * 60 * 1000,
-    select: (items: Product[]) => {
+    select: (items) => {
       let filtered = [...items];
 
       if (categoryFilter !== 'all') {
