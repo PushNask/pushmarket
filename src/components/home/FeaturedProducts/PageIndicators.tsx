@@ -13,13 +13,12 @@ export const PageIndicators = ({
         <button
           key={index}
           onClick={() => onPageChange(index)}
-          className={`w-2 h-2 rounded-full transition-all duration-300 ${
-            currentPage === index
-              ? 'bg-primary w-6'
+          className={`w-2 h-2 rounded-full transition-all ${
+            currentPage === index 
+              ? 'bg-primary w-4' 
               : 'bg-gray-300 hover:bg-gray-400'
           }`}
           aria-label={`Go to page ${index + 1}`}
-          aria-current={currentPage === index ? 'page' : undefined}
         />
       ))}
     </div>
