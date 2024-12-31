@@ -18,20 +18,20 @@ export const Navigation = ({
         size="icon"
         onClick={onPrevious}
         disabled={currentPage === 0 || isLoading}
-        className="h-8 w-8"
+        className="h-10 w-10 rounded-full hover:scale-110 transition-transform duration-200"
         aria-label="Previous page"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-5 w-5" />
       </Button>
       <Button
         variant="outline"
         size="icon"
         onClick={onNext}
         disabled={currentPage === totalPages - 1 || isLoading}
-        className="h-8 w-8"
+        className="h-10 w-10 rounded-full hover:scale-110 transition-transform duration-200"
         aria-label="Next page"
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-5 w-5" />
       </Button>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductCard } from '@/components/product/ProductCard';
 import { Navigation } from './Navigation';
 import { PageIndicators } from './PageIndicators';
 import { FeaturedProductsProps } from './types';
@@ -62,18 +62,31 @@ export const FeaturedProducts = ({
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-300">
         {isLoading
           ? Array.from({ length: PRODUCTS_PER_PAGE }).map((_, i) => (
-              <SkeletonCard key={i} />
+              <div key={i} className="animate-pulse">
+                <SkeletonCard />
+              </div>
             ))
           : currentProducts.map((product) => (
-              <ProductCard 
+              <div 
                 key={product.id}
-                {...product}
-                currency={product.currency || 'XAF'}
-                images={product.images || ['/placeholder.svg']}
-              />
+                className="transform transition-all duration-300 hover:scale-[1.02]"
+              >
+                <ProductCard
+                  id={product.id}
+                  title={product.title}
+                  price={product.price}
+                  currency={product.currency || 'XAF'}
+                  location={product.location}
+                  category={product.category}
+                  images={product.images || ['/placeholder.svg']}
+                  description={product.description}
+                  seller={product.seller}
+                  metrics={product.metrics}
+                />
+              </div>
             ))}
       </div>
 
