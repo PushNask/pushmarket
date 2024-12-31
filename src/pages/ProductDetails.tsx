@@ -12,6 +12,7 @@ const ProductDetails = () => {
     price: 450000,
     currency: "XAF",
     location: "Douala, Cameroon",
+    category: "Electronics", // Added required category
     description: "Barely used iPhone 13 Pro with all accessories. No scratches, perfect battery health.",
     images: Array(5).fill("/api/placeholder/400/400"),
     expiresAt: new Date(Date.now() + 25 * 60 * 60 * 1000),
