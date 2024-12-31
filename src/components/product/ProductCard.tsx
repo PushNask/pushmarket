@@ -9,10 +9,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ImageCarousel } from './ImageCarousel/ImageCarousel';
-import { SellerInfo } from './SellerInfo/SellerInfo';
-import { DeliveryOptions } from './DeliveryOptions/DeliveryOptions';
-import { ShareMenu } from './ShareMenu/ShareMenu';
+import { ImageCarousel } from './ImageCarousel';
+import { SellerInfo } from './SellerInfo';
+import { ShareButtons } from './ShareButtons';
 import { ProductCardProps } from './types';
 
 export const ProductCard = ({
@@ -20,23 +19,16 @@ export const ProductCard = ({
   linkNumber,
   title,
   price,
-  currency = 'XAF',
+  currency,
   location,
   description,
-  images = [],
+  images,
   expiresAt,
   seller,
   metrics
 }: ProductCardProps) => {
   const [timeRemaining, setTimeRemaining] = useState('');
   const [timerColor, setTimerColor] = useState('text-green-500');
-  const [isSharing, setIsSharing] = useState(false);
-  const [shareAnalytics, setShareAnalytics] = useState({
-    whatsapp: 0,
-    facebook: 0,
-    twitter: 0,
-    clipboard: 0
-  });
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -53,43 +45,7 @@ export const ProductCard = ({
     window.open(whatsappUrl, '_blank');
   };
 
-  const handleShare = async (platform: string) => {
-    setIsSharing(true);
-    const productUrl = `${window.location.origin}/product/${id}`;
-    const shareText = `Check out this product: ${title} (${formatPrice(price)})`;
-    
-    try {
-      switch (platform) {
-        case 'whatsapp':
-          window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + productUrl)}`, '_blank');
-          break;
-        case 'facebook':
-          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`, '_blank');
-          break;
-        case 'twitter':
-          window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`, '_blank');
-          break;
-        case 'clipboard':
-          await navigator.clipboard.writeText(productUrl);
-          alert('Link copied to clipboard!');
-          break;
-      }
-      
-      setShareAnalytics(prev => ({
-        ...prev,
-        [platform]: prev[platform] + 1
-      }));
-    } catch (error) {
-      console.error('Share error:', error);
-      alert('Failed to share. Please try again.');
-    } finally {
-      setIsSharing(false);
-    }
-  };
-
   useEffect(() => {
-    if (!expiresAt) return;
-
     const updateTimer = () => {
       const now = new Date();
       const diff = expiresAt.getTime() - now.getTime();
@@ -124,25 +80,21 @@ export const ProductCard = ({
             <Badge variant="default" className="text-sm py-1 px-2">
               P{linkNumber}
             </Badge>
-            {expiresAt && (
-              <span className={`text-base font-medium ${timerColor}`}>
-                {timeRemaining}
-              </span>
-            )}
+            <span className={`text-base font-medium ${timerColor}`}>
+              {timeRemaining}
+            </span>
           </div>
-          {metrics && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="flex items-center text-base text-gray-600 px-2">
-                    <Eye className="w-5 h-5 mr-1.5" />
-                    {metrics.views}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>Total Views</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <div className="flex items-center text-base text-gray-600 px-2">
+                  <Eye className="w-5 h-5 mr-1.5" />
+                  {metrics.views}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>Total Views</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </CardHeader>
 
@@ -165,19 +117,13 @@ export const ProductCard = ({
         )}
 
         {seller && (
-          <>
-            <SellerInfo
-              name={seller.name}
-              rating={seller.rating}
-              isVerified={seller.isVerified}
-              responseTime={seller.responseTime}
-              location={location}
-            />
-            
-            {seller.shippingOptions && (
-              <DeliveryOptions options={seller.shippingOptions} />
-            )}
-          </>
+          <SellerInfo
+            name={seller.name}
+            rating={seller.rating}
+            isVerified={seller.isVerified}
+            responseTime={seller.responseTime}
+            location={location}
+          />
         )}
       </CardContent>
 
@@ -193,10 +139,11 @@ export const ProductCard = ({
         <Button variant="outline" size="icon" className="w-12 h-12">
           <Heart className="w-5 h-5" />
         </Button>
-        <ShareMenu
-          isSharing={isSharing}
-          onShare={handleShare}
-          analytics={shareAnalytics}
+        <ShareButtons
+          productId={id}
+          title={title}
+          price={price}
+          currency={currency}
         />
       </CardFooter>
     </Card>

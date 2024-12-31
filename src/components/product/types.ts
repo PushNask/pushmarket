@@ -6,7 +6,7 @@ export interface ProductCardProps {
   currency: string;
   location: string;
   description: string;
-  images: string[];  // Changed from single image to array
+  images: string[];
   expiresAt: Date;
   seller: {
     name: string;
@@ -24,4 +24,23 @@ export interface ProductCardProps {
     likes: number;
     linkScore: number;
   };
+}
+
+export interface ImageCarouselProps {
+  images: string[];
+}
+
+export interface SellerInfoProps {
+  name: string;
+  rating: number;
+  isVerified: boolean;
+  responseTime: string;
+  location: string;
+}
+
+export interface ShareButtonsProps {
+  productId: string;
+  title: string;
+  price: number;
+  currency: string;
 }
