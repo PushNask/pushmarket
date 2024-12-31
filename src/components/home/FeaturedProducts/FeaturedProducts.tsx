@@ -74,18 +74,7 @@ export const FeaturedProducts = ({
                 key={product.id}
                 className="transform transition-all duration-300 hover:scale-[1.02]"
               >
-                <ProductCard
-                  id={product.id}
-                  title={product.title}
-                  price={product.price}
-                  currency={product.currency || 'XAF'}
-                  location={product.location}
-                  category={product.category}
-                  images={product.images || ['/placeholder.svg']}
-                  description={product.description}
-                  seller={product.seller}
-                  metrics={product.metrics}
-                />
+                <ProductCard {...product} />
               </div>
             ))}
       </div>
