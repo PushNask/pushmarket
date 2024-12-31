@@ -1,16 +1,8 @@
-export interface Product {
-  id: string;
-  title: string;
-  price: number;
-  images: string[];
-  category: string;
-  location: string;
-  [key: string]: any;
-}
+import { Product } from '@/types/product.types';
 
 export interface FeaturedProductsProps {
   products: Product[];
-  isLoading?: boolean;
+  isLoading: boolean;
   autoRotateInterval?: number;
 }
 
@@ -19,7 +11,7 @@ export interface NavigationProps {
   totalPages: number;
   onNext: () => void;
   onPrevious: () => void;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 export interface PageIndicatorsProps {

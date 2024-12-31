@@ -29,10 +29,8 @@ export const FeaturedProducts = ({
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   }, [totalPages]);
 
-  // Auto-rotation
   useEffect(() => {
     if (isLoading || isPaused || !autoRotateInterval || totalPages <= 1) return;
-
     const interval = setInterval(nextPage, autoRotateInterval);
     return () => clearInterval(interval);
   }, [nextPage, isLoading, isPaused, autoRotateInterval, totalPages]);
@@ -46,7 +44,7 @@ export const FeaturedProducts = ({
   }
 
   return (
-    <section
+    <section 
       className="py-8"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -62,7 +60,7 @@ export const FeaturedProducts = ({
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-300">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {isLoading
           ? Array.from({ length: PRODUCTS_PER_PAGE }).map((_, i) => (
               <div key={i} className="animate-pulse">
@@ -76,7 +74,7 @@ export const FeaturedProducts = ({
               >
                 <ProductCard 
                   {...product} 
-                  currency={product.currency || 'XAF'} // Add default currency if not provided
+                  currency={product.currency || 'XAF'}
                 />
               </div>
             ))}

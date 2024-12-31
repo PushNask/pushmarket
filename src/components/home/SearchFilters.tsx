@@ -33,14 +33,14 @@ export const SearchFilters = ({
   return (
     <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b">
       <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
           {/* Search Input */}
-          <div className="relative flex-1 min-w-[200px]">
+          <div className="relative flex-1 w-full min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full pl-9 pr-4 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-4 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
