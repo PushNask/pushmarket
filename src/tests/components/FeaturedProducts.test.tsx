@@ -7,6 +7,7 @@ describe('FeaturedProducts', () => {
   const mockProducts = [
     {
       id: '1',
+      linkNumber: 1,
       title: 'Test Product 1',
       price: 100,
       images: ['/test-image-1.jpg'],
@@ -14,6 +15,7 @@ describe('FeaturedProducts', () => {
       location: 'Douala',
       currency: 'XAF',
       description: 'Test description',
+      approvedAt: new Date(),
       expiresAt: new Date(),
       seller: {
         name: 'Test Seller',
@@ -34,6 +36,7 @@ describe('FeaturedProducts', () => {
     },
     {
       id: '2',
+      linkNumber: 2,
       title: 'Test Product 2',
       price: 200,
       images: ['/test-image-2.jpg'],
@@ -41,6 +44,7 @@ describe('FeaturedProducts', () => {
       location: 'Yaoundé',
       currency: 'XAF',
       description: 'Test description 2',
+      approvedAt: new Date(),
       expiresAt: new Date(),
       seller: {
         name: 'Test Seller 2',
