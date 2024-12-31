@@ -6,7 +6,7 @@ export interface ProductCardProps {
   currency: string;
   location: string;
   description: string;
-  images: string[];
+  images: string[];  // Changed from single image to array
   expiresAt: Date;
   seller: {
     name: string;

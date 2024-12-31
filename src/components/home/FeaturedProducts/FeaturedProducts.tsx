@@ -68,7 +68,12 @@ export const FeaturedProducts = ({
               <SkeletonCard key={i} />
             ))
           : currentProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              <ProductCard 
+                key={product.id}
+                {...product}
+                currency={product.currency || 'XAF'}
+                images={product.images || ['/placeholder.svg']}
+              />
             ))}
       </div>
 

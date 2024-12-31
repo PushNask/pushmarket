@@ -12,6 +12,25 @@ describe('FeaturedProducts', () => {
       images: ['/test-image-1.jpg'],
       category: 'electronics',
       location: 'Douala',
+      currency: 'XAF',
+      description: 'Test description',
+      expiresAt: new Date(),
+      seller: {
+        name: 'Test Seller',
+        rating: 4.5,
+        responseTime: '~5 mins',
+        whatsappNumber: '123456789',
+        isVerified: true,
+        shippingOptions: {
+          pickup: true,
+          shipping: false
+        }
+      },
+      metrics: {
+        views: 100,
+        likes: 10,
+        linkScore: 85
+      }
     },
     {
       id: '2',
@@ -20,6 +39,25 @@ describe('FeaturedProducts', () => {
       images: ['/test-image-2.jpg'],
       category: 'fashion',
       location: 'Yaoundé',
+      currency: 'XAF',
+      description: 'Test description 2',
+      expiresAt: new Date(),
+      seller: {
+        name: 'Test Seller 2',
+        rating: 4.0,
+        responseTime: '~10 mins',
+        whatsappNumber: '987654321',
+        isVerified: false,
+        shippingOptions: {
+          pickup: true,
+          shipping: true
+        }
+      },
+      metrics: {
+        views: 50,
+        likes: 5,
+        linkScore: 75
+      }
     },
   ];
 
