@@ -74,7 +74,10 @@ export const FeaturedProducts = ({
                 key={product.id}
                 className="transform transition-all duration-300 hover:scale-[1.02]"
               >
-                <ProductCard {...product} />
+                <ProductCard 
+                  {...product} 
+                  currency={product.currency || 'XAF'} // Add default currency if not provided
+                />
               </div>
             ))}
       </div>
